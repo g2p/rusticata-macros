@@ -2,9 +2,7 @@
 
 use nom::bytes::complete::take;
 use nom::combinator::map_res;
-use nom::combinator::rest;
 pub use nom::error::{make_error, ErrorKind, ParseError};
-use nom::HexDisplay;
 pub use nom::{IResult, Needed};
 
 #[doc(hidden)]
@@ -123,11 +121,6 @@ macro_rules! cond_else (
       cond_else!($i, $cond, call!($expr_then), call!($expr_else))
   );
 );
-
-/// Dump the remaining bytes to stderr, formatted as hex
-pub fn dbg_dmp_rest(i: &[u8]) -> IResult<&[u8], ()> {
-    map!(i, peek!(call!(rest)), |r| eprintln!("\n{}\n", r.to_hex(16)))
-}
 
 #[deprecated(since = "3.0.1", note = "please use `be_var_u64` instead")]
 /// Read an entire slice as a big-endian value.
